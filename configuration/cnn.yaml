@@ -1,0 +1,49 @@
+environment:
+  distributed: True
+  backend: 'nccl'
+
+checkpoint:
+  monitor: 'loss'
+  save_every: 1
+  max_to_keep: 10
+  initial_value_threshold: 0.2
+  verbose: True
+
+model:
+  name: 'Con1D'
+  block: '01'
+  in_channels: 2
+  out_channels: [32, 64, 128]
+  batch_norm: False
+  activation: 'ReLU'
+  conv_layers: 3
+  dropout_rate: 0.0
+
+optimizer:
+  type: 'Adam'
+  params:
+    lr: 0.001
+
+lr_scheduler:
+  type: ExponentialLR
+  params:
+    gamma: 0.9
+
+dataset:
+  input_folder: "../dataset/stdmap"
+  output_folder: "../output"
+  sequence_length: 128
+  num_trajectories:
+
+dataloader:
+  batch_size: 32
+  num_workers: 1
+  persistent_workers: True
+
+trainer:
+  loss: 'MSELoss'
+  metrics: 'MSE'
+  epochs: 100
+  save_img_every: 10
+  gpu_id:
+  verbose: True
