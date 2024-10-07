@@ -77,9 +77,27 @@ def plot(k: int, p: numpy.ndarray, q: numpy.ndarray, colours: numpy.ndarray, dir
 
 
 if __name__ == '__main__':
-    # plot one
-    # p, q, colours = evolution(1.2, 0.5, 4096)
+    # # plot one
+    # k = 20
+    # p, q, colours = evolution(k, 0.5, 4096)
+    # colours = numpy.vstack([colours] * 4096)
+    # cm = 'magma'
+    # fontdict = {'fontsize': 12}
     #
+    # fig, axs = plt.subplots(figsize=(7, 7), layout='constrained')
+    # axs.scatter(q, p, s=.15, linewidths=.15, c=colours[:, 1], cmap=cm)
+    #
+    # axs.set_ylabel(r'$p$')
+    # axs.set_xlabel(r'$\theta$')
+    #
+    # axs.tick_params(axis='x', labelsize=8)
+    # axs.tick_params(axis='y', labelsize=8)
+    # axs.tick_params(length=2, grid_alpha=0.5)
+    # axs.set_title(r"$k = %.2f$" % k, fontdict=fontdict)
+    #
+    # plt.savefig(f'{k}.png', format='png', dpi=300, bbox_inches='tight')
+    #
+    # # plot four
     # p_0, q_0, colours = evolution(0.5, 0.5, 2048)
     # p_1, q_1, colours = evolution(1.3, 0.5, 2048)
     # p_2, q_2, colours = evolution(2.1, 0.5, 2048)
@@ -116,10 +134,10 @@ if __name__ == '__main__':
     #
     # plt.savefig('fs.png', format='png', dpi=300, bbox_inches='tight')
     # plt.savefig('fs.eps', format='eps', dpi=300, bbox_inches='tight')
-
-    plt.show()
-
-    # k = 8
+    #
+    # plt.show()
+    #
+    # # k = 8
     #
     # for n in [512, 1024, 2048]:
     #     for s in [40, 80, 120]:
@@ -328,13 +346,13 @@ if __name__ == '__main__':
     #
 
     # # ---------------------------------------------------------------------------------------------------------------- #
-    fontdict = {'fontsize': 12}
-
-    sequences = [128, 512, 2048]
-    sequences_folder = ['run05', 'run07', 'run09']
-    trajectories = [50, 100, 150]
-
-    root = '/home/silver/Documents/PycharmProjects/Standard_Map/output/chirikov02v1/lstm'
+    # fontdict = {'fontsize': 12}
+    #
+    # sequences = [128, 512, 2048]
+    # sequences_folder = ['run05', 'run07', 'run09']
+    # trajectories = [50, 100, 150]
+    #
+    # root = '/home/silver/Documents/PycharmProjects/Standard_Map/output/chirikov02v1/lstm'
 
     # # ---------------------------------------------------------------------------------------------------------------- #
     #

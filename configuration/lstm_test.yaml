@@ -1,0 +1,43 @@
+environment:
+  distributed: False
+  backend: 'nccl'
+
+checkpoint:
+  monitor: 'loss'
+  save_every: 1
+  max_to_keep: 10
+  initial_value_threshold: 0.2
+  verbose: True
+
+model:
+  name: 'LSTM'
+  input_size: 2
+  hidden_size: 128
+  num_layers: 2
+  batch_first: True
+  dropout: 0.0
+  bidirectional: False
+
+optimizer:
+  type: 'Adam'
+  params:
+    lr: 0.0003
+
+dataset:
+  input_folder: "../dataset/test/01"
+  output_folder: '../output/chirikov02v1/lstm/run05'
+  sequence_length: 128
+  num_trajectories:
+
+dataloader:
+  batch_size: 1
+  num_workers: 1
+  persistent_workers: True
+
+trainer:
+  loss: 'SmoothL1Loss'
+  metrics: 'SL1'
+  epochs: 100
+  save_img_every: 10
+  gpu_id:
+  verbose: True
