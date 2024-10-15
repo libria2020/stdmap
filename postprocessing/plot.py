@@ -1,6 +1,7 @@
 import os
 import sys
 
+import h5py
 import numpy
 import numpy as np
 import pandas
@@ -8,6 +9,8 @@ import pandas
 import seaborn as sns
 from tqdm import tqdm
 from matplotlib import pyplot as plt, cm, ticker
+
+import pprint
 
 
 def chirikov(p: numpy.ndarray, q: numpy.ndarray, k: float):
@@ -654,5 +657,85 @@ if __name__ == '__main__':
     #
     # plt.savefig('fig7.png', format='png', dpi=300, bbox_inches='tight')
     # plt.savefig('fig7.eps', format='eps', dpi=300, bbox_inches='tight')
+
+    # ---------------------------------------------------------------------------------------------------------------- #
+
+    # runs = ['run00', 'run01', 'run02', 'run03', 'run04', 'run05', 'run06', 'run07', 'run08', 'run09']
+    # models = ['cnn', 'lstm']
+    # iterations = [128, 256, 512, 1024, 2048]
+    # trajectories = [1] + np.arange(10, 170, 10).tolist()
+    #
+    # root = '/home/silver/Documents/PycharmProjects/Standard_Map/output/chirikov02v1'
+    #
+    # mse = {}
+    #
+    # for idxm, m in enumerate(models):
+    #     iteration = {}
+    #     for idx, i in enumerate(iterations):
+    #
+    #         trajectory = {}
+    #         for t in trajectories:
+    #             path = os.path.join(root, m, runs[idx + 5*idxm], str(i) + '_' + str(t), 'log/v_0/test.csv')
+    #
+    #             df = pandas.read_csv(path)
+    #
+    #             trajectory[str(t)] = df.value.values[0]
+    #
+    #         iteration[str(i)] = trajectory
+    #
+    #     mse[m] = iteration
+    #
+    # print(mse)
+
+    # ---------------------------------------------------------------------------------------------------------------- #
+
+    sequences = [128, 256, 512, 1024, 2048]
+    folder = ['run05', 'run06', 'run07', 'run08', 'run09']
+    trajectories = [1] + np.arange(10, 170, 10).tolist()
+
+    root = '/home/silver/Documents/PycharmProjects/Standard_Map/output/chirikov02v1/lstm'
+
+    k_values = [0.6, 0.75, 0.9, 1.1, 1.3, 1.55, 2.0, 2.25, 2.65, 2.75, 3.5, 4.0, 4.4, 4.5]
+
+    data = {}
+
+    for i, l in enumerate(sequences):
+
+        trajectory = {}
+
+        for j, n in enumerate(trajectories):
+            path = os.path.join(root, folder[i], f'{l}_{n}', 'log/v_0/predictions.csv')
+
+            df = pandas.read_csv(path)
+
+            mean = []
+            std = []
+
+            for k in k_values:
+                mask = numpy.isclose(df['real'], k, atol=0.001)
+                filtered_predictions = df.loc[mask]
+
+                real = filtered_predictions['real'].values
+                predictions = filtered_predictions['predictions'].values
+
+                mean.append(numpy.mean(predictions))
+                std.append(numpy.std(predictions))
+
+            trajectory[n] = {'mean': mean, 'std': std}
+
+        data[l] = trajectory
+
+    print(pprint.pformat(data))
+
+    hdf5_file_path = 'data.h5'
+    with h5py.File(hdf5_file_path, 'w') as hdf5_file:
+        for seq, trajectory in data.items():
+            seq_group = hdf5_file.create_group(str(seq))  # Create a group for each sequence
+            for traj, values in trajectory.items():
+                traj_group = seq_group.create_group(str(traj))  # Create a subgroup for each trajectory
+                traj_group.create_dataset('mean', data=values['mean'])  # Save mean values
+                traj_group.create_dataset('std', data=values['std'])  # Save std values
+
+    print("Finished saving data to HDF5 file.")
 
     print("Finished")

@@ -80,7 +80,7 @@ def main(configuration):
         Create Dataloaders
         """
         dataloader = SequenceDataLoader(configuration)
-        test_dataloader = test_dataloader = dataloader.get_dataloader('test')
+        test_dataloader = dataloader.get_dataloader('test')
 
         """
         Create Trainer Object
@@ -108,13 +108,13 @@ def main(configuration):
 
 
 if __name__ == '__main__':
-    # if len(sys.argv) != 2:
-    #     print(f"Usage: {sys.argv[0]} [YAML CONFIGURATION FILE]")
-    #     sys.exit(0)
-    #
-    # path = Path(sys.argv[1])
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} [YAML CONFIGURATION FILE]")
+        sys.exit(0)
 
-    path = Path("configuration/lstm_test.yaml")
+    path = Path(sys.argv[1])
+
+    # path = Path("configuration/lstm_test.yaml")
 
     """
     Load Configuration File
@@ -143,5 +143,3 @@ if __name__ == '__main__':
     #     main(configuration)
 
     print("Finished!")
-
-# TODO finish lstm model and add transformer model

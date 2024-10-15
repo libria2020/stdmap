@@ -1,5 +1,5 @@
 environment:
-  distributed: False
+  distributed: True
   backend: 'nccl'
 
 checkpoint:
@@ -24,19 +24,20 @@ optimizer:
     lr: 0.0003
 
 dataset:
-  input_folder: "../dataset/test/01"
-  output_folder: '../output/chirikov02v1/lstm/run05'
-  sequence_length: 128
+  input_folder: "../dataset/test/04"
+  output_folder: "../output/chirikov02_loss_2048/lstm/SmoothL1Loss"
+  sequence_length: 2048
   num_trajectories:
+  trajectories: 'all'
 
 dataloader:
-  batch_size: 1
+  batch_size: 32
   num_workers: 1
   persistent_workers: True
 
 trainer:
   loss: 'SmoothL1Loss'
-  metrics: 'SL1'
+  metrics: 'SmoothL1'
   epochs: 100
   save_img_every: 10
   gpu_id:

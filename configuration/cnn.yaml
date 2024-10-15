@@ -10,7 +10,7 @@ checkpoint:
   verbose: True
 
 model:
-  name: 'Con1D'
+  name: 'Conv1d'
   block: '01'
   in_channels: 2
   out_channels: [32, 64, 128]
@@ -30,10 +30,11 @@ lr_scheduler:
     gamma: 0.9
 
 dataset:
-  input_folder: "../dataset/stdmap"
+  input_folder: "../dataset/chirikov02"
   output_folder: "../output"
-  sequence_length: 128
+  sequence_length: 2048
   num_trajectories:
+  trajectories: 'all'
 
 dataloader:
   batch_size: 32

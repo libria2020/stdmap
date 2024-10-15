@@ -20,6 +20,7 @@ class SequenceNormalize:
 class SequenceDataLoader:
     def __init__(self, configuration):
         self.dataloader_params = configuration.dataloader
+        self.dataset_params = configuration.dataset
 
         self.distributed = configuration.environment.distributed
 
@@ -50,11 +51,14 @@ class SequenceDataLoader:
 
     def _get_dataset(self, text):
         if text == 'train':
-            return SequenceDataset(self.dataset, text, transform=self._transformations())
+            return SequenceDataset(self.dataset, text, transform=self._transformations(),
+                                   trajectories=self.dataset_params.trajectories)
         elif text == 'validation':
-            return SequenceDataset(self.dataset, text, transform=self._transformations())
+            return SequenceDataset(self.dataset, text, transform=self._transformations(),
+                                   trajectories=self.dataset_params.trajectories)
         elif text == 'test':
-            return SequenceDataset(self.dataset, text, transform=self._transformations())
+            return SequenceDataset(self.dataset, text, transform=self._transformations(),
+                                   trajectories=self.dataset_params.trajectories)
 
     def get_dataloader(self, text):
         dataset = self._get_dataset(text)
